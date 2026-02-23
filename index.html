@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Booster</title>
+
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f0f0f,#1a1a1a);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container {
+    width:90%;
+    max-width:800px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 30px rgba(255,140,0,0.4);
+}
+
+h1 {
+    text-align:center;
+    background: linear-gradient(90deg, orange, red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+textarea {
+    width:100%;
+    height:120px;
+    padding:15px;
+    border-radius:10px;
+    border:none;
+    margin-top:10px;
+    background:#111;
+    color:white;
+    resize:none;
+}
+
+select {
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    margin-top:10px;
+    background:#111;
+    color:white;
+}
+
+button {
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(90deg,orange,red);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover {
+    transform:scale(1.05);
+}
+
+.output {
+    margin-top:20px;
+    padding:15px;
+    background:#111;
+    border-radius:10px;
+    min-height:100px;
+    white-space:pre-wrap;
+}
+
+.copy {
+    background:linear-gradient(90deg,#00c6ff,#0072ff);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔥 Улучшатель промтов</h1>
+
+    <textarea id="input" placeholder="Введите ваш промт..."></textarea>
+
+    <select id="style">
+        <option value="expert">Экспертный</option>
+        <option value="creative">Креативный</option>
+        <option value="business">Бизнес</option>
+        <option value="code">Программирование</option>
+        <option value="marketing">Маркетинг</option>
+    </select>
+
+    <button onclick="improvePrompt()">Улучшить</button>
+
+    <div class="output" id="output"></div>
+
+    <button class="copy" onclick="copyText()">Скопировать</button>
+</div>
+
+<script>
+function improvePrompt(){
+    let text = document.getElementById("input").value;
+    let style = document.getElementById("style").value;
+    let improved = "";
+
+    if(text.trim() === ""){
+        alert("Введите промт");
+        return;
+    }
+
+    if(style === "expert"){
+        improved = "Действуй как признанный эксперт в своей области.\n\n" +
+        "Подробно, структурировано и профессионально раскрой тему:\n\n" + text +
+        "\n\nДобавь примеры, пошаговый план и практические рекомендации.";
+    }
+
+    if(style === "creative"){
+        improved = "Подойди к задаче нестандартно и креативно.\n" +
+        "Добавь оригинальные идеи, необычные сравнения и яркий стиль.\n\n" + text;
+    }
+
+    if(style === "business"){
+        improved = "Ответ должен быть четким, деловым и ориентированным на результат.\n" +
+        "Добавь выгоды, цифры и конкретные действия.\n\n" + text;
+    }
+
+    if(style === "code"){
+        improved = "Ты профессиональный разработчик.\n" +
+        "Дай чистый, оптимизированный и полный код.\n" +
+        "Объясни структуру решения.\n\n" + text;
+    }
+
+    if(style === "marketing"){
+        improved = "Создай убедительный и продающий ответ.\n" +
+        "Используй триггеры, выгоды, эмоции и призыв к действию.\n\n" + text;
+    }
+
+    document.getElementById("output").innerText = improved;
+}
+
+function copyText(){
+    let text = document.getElementById("output").innerText;
+    navigator.clipboard.writeText(text);
+    alert("Скопировано!");
+}
+</script>
+
+</body>
+</html>
