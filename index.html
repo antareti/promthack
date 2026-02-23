@@ -3,159 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Booster</title>
-
+<title>AI Prompt Booster PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 <style>
-body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f0f0f,#1a1a1a);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+:root{
+  --neon1:#ff6a00;
+  --neon2:#ff0000;
+  --bg1:#0f0f0f;
+  --bg2:#1b1b1b;
 }
-
-.container {
-    width:90%;
-    max-width:800px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 0 30px rgba(255,140,0,0.4);
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  background:radial-gradient(circle at 20% 20%, #1a1a1a, #000);
+  color:white;
+  display:flex;
+  justify-content:center;
+  padding:20px;
 }
-
-h1 {
-    text-align:center;
-    background: linear-gradient(90deg, orange, red);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.container{
+  width:100%;
+  max-width:900px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
+  padding:25px;
+  border-radius:25px;
+  box-shadow:0 0 40px rgba(255,100,0,0.4);
+  animation:fadeIn 1s ease;
 }
-
-textarea {
-    width:100%;
-    height:120px;
-    padding:15px;
-    border-radius:10px;
-    border:none;
-    margin-top:10px;
-    background:#111;
-    color:white;
-    resize:none;
+h1{
+  text-align:center;
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-
-select {
-    width:100%;
-    padding:10px;
-    border-radius:10px;
-    border:none;
-    margin-top:10px;
-    background:#111;
-    color:white;
+textarea, select, input{
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:#111;
+  color:white;
+  font-size:14px;
 }
-
-button {
-    width:100%;
-    padding:15px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    background:linear-gradient(90deg,orange,red);
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
+textarea{min-height:120px;resize:none;}
+button{
+  width:100%;
+  margin-top:15px;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
 }
-
-button:hover {
-    transform:scale(1.05);
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px var(--neon1);
 }
-
-.output {
-    margin-top:20px;
-    padding:15px;
-    background:#111;
-    border-radius:10px;
-    min-height:100px;
-    white-space:pre-wrap;
+.output{
+  margin-top:20px;
+  padding:15px;
+  background:#111;
+  border-radius:12px;
+  white-space:pre-wrap;
+  min-height:120px;
 }
-
-.copy {
-    background:linear-gradient(90deg,#00c6ff,#0072ff);
+.topbar{display:flex;gap:10px;flex-wrap:wrap;}
+.topbar select{flex:1;}
+.slider-box{margin-top:10px;}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+@media(max-width:600px){
+  .container{padding:15px;}
+  h1{font-size:20px;}
 }
 </style>
 </head>
 <body>
-
 <div class="container">
-    <h1>🔥 Улучшатель промтов</h1>
-
-    <textarea id="input" placeholder="Введите ваш промт..."></textarea>
-
-    <select id="style">
-        <option value="expert">Экспертный</option>
-        <option value="creative">Креативный</option>
-        <option value="business">Бизнес</option>
-        <option value="code">Программирование</option>
-        <option value="marketing">Маркетинг</option>
+  <h1>🔥 AI Prompt Booster PRO</h1>
+  <div class="topbar">
+    <select id="language">
+      <option value="ru">Русский</option>
+      <option value="en">English</option>
+      <option value="ka">ქართული</option>
     </select>
-
-    <button onclick="improvePrompt()">Улучшить</button>
-
-    <div class="output" id="output"></div>
-
-    <button class="copy" onclick="copyText()">Скопировать</button>
+    <select id="style">
+      <option value="expert">Эксперт</option>
+      <option value="creative">Креатив</option>
+      <option value="business">Бизнес</option>
+      <option value="code">Код</option>
+      <option value="marketing">Маркетинг</option>
+    </select>
+  </div>
+  <div class="slider-box">
+    <label>Уровень усиления: <span id="lvl">5</span></label>
+    <input type="range" min="1" max="10" value="5" id="strength">
+  </div>
+  <textarea id="input" placeholder="Введите ваш промт..."></textarea>
+  <button onclick="improve()">Улучшить через AI</button>
+  <div class="output" id="output"></div>
+  <button onclick="copyText()">Скопировать</button>
 </div>
 
 <script>
-function improvePrompt(){
-    let text = document.getElementById("input").value;
-    let style = document.getElementById("style").value;
-    let improved = "";
+document.getElementById("strength").oninput=function(){
+  document.getElementById("lvl").innerText=this.value;
+}
 
-    if(text.trim() === ""){
-        alert("Введите промт");
-        return;
-    }
+const OPENAI_KEY = "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";
 
-    if(style === "expert"){
-        improved = "Действуй как признанный эксперт в своей области.\n\n" +
-        "Подробно, структурировано и профессионально раскрой тему:\n\n" + text +
-        "\n\nДобавь примеры, пошаговый план и практические рекомендации.";
-    }
+async function improve(){
+  let text=document.getElementById("input").value;
+  let style=document.getElementById("style").value;
+  let lang=document.getElementById("language").value;
+  let strength=document.getElementById("strength").value;
 
-    if(style === "creative"){
-        improved = "Подойди к задаче нестандартно и креативно.\n" +
-        "Добавь оригинальные идеи, необычные сравнения и яркий стиль.\n\n" + text;
-    }
+  if(!text){alert("Введите текст"); return;}
 
-    if(style === "business"){
-        improved = "Ответ должен быть четким, деловым и ориентированным на результат.\n" +
-        "Добавь выгоды, цифры и конкретные действия.\n\n" + text;
-    }
+  let systemPrompt = `
+Ты профессиональный AI-улучшатель промтов.
+Стиль: ${style}
+Уровень усиления: ${strength}/10
+Язык ответа: ${lang}
 
-    if(style === "code"){
-        improved = "Ты профессиональный разработчик.\n" +
-        "Дай чистый, оптимизированный и полный код.\n" +
-        "Объясни структуру решения.\n\n" + text;
-    }
+Сделай промт более структурированным, мощным и точным.
+Добавь ясность, цель, формат ответа и дополнительные детали.
+`;
 
-    if(style === "marketing"){
-        improved = "Создай убедительный и продающий ответ.\n" +
-        "Используй триггеры, выгоды, эмоции и призыв к действию.\n\n" + text;
-    }
-
-    document.getElementById("output").innerText = improved;
+  try{
+    let response = await fetch("https://api.openai.com/v1/chat/completions",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+OPENAI_KEY
+      },
+      body:JSON.stringify({
+        model:"gpt-4o-mini",
+        messages:[
+          {role:"system",content:systemPrompt},
+          {role:"user",content:text}
+        ],
+        temperature:0.7
+      })
+    });
+    let data=await response.json();
+    document.getElementById("output").innerText=data.choices[0].message.content;
+  }catch(e){
+    alert("Ошибка подключения к API");
+  }
 }
 
 function copyText(){
-    let text = document.getElementById("output").innerText;
-    navigator.clipboard.writeText(text);
-    alert("Скопировано!");
+  let text=document.getElementById("output").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Скопировано!");
 }
 </script>
-
 </body>
 </html>
